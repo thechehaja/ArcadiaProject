@@ -4,6 +4,10 @@
 
 **ArcadiaDB** is a comprehensive and open-source SQL Server database designed for game development projects. It integrates various aspects of game development, including multiplayer management, in-game economy, asset management, player statistics, achievements, and analytics. This database is ideal for developers looking to understand or implement complex game systems with a focus on scalability and performance.
 
+## Entity-Relationship Diagram (ERD)
+Below is the ER diagram for ArcadiaDB:
+
+![ArcadiaDB ER Diagram](assets/ArcadiaDiagram.png)
 
 ## Key Features
 - **Multiplayer Management:** Track matches, player statistics, and in-game events.

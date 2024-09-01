@@ -327,3 +327,30 @@ BEGIN
 	SET LastLoginDate = @LastLogin
 	WHERE PlayerID = @PlayerID;
 END;
+
+-- 5.0.2 Trigger to Automatically Award Achievements
+
+GO
+CREATE TRIGGER trg_AwardAchievementOnKills
+ON PlayerMatchStats
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @PlayerID INT, @Kills INT;
+    
+    SELECT @PlayerID = inserted.PlayerID, @Kills = inserted.Kills
+    FROM inserted;
+    
+    IF @Kills >= 100
+    BEGIN
+        IF NOT EXISTS (
+            SELECT 1
+            FROM PlayerAchievements
+            WHERE PlayerID = @PlayerID AND AchievementID = 1 -- Assuming AchievementID 1 is for 100 kills
+        )
+        BEGIN
+            INSERT INTO PlayerAchievements (PlayerID, AchievementID, DateEarned)
+            VALUES (@PlayerID, 1, GETDATE());
+        END
+    END
+END;

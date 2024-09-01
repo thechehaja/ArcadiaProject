@@ -1,38 +1,38 @@
 USE ArcadiaDB
 
--- 1. Basic Queries
+-- 1.0.0 Basic Queries
 
--- 1.1 Retrieve All Players
+-- 1.0.1 Retrieve All Players
 
 SELECT * FROM Players
 
--- 1.2 Retrieve All Games
+-- 1.0.2 Retrieve All Games
 
 SELECT * FROM Games
 
--- 1.3 Retrieve All Matches
+-- 1.0.3 Retrieve All Matches
 
 SELECT * FROM Matches
 
--- 1.4 Retrieve Players with Specific Experience Points
+-- 1.0.4 Retrieve Players with Specific Experience Points
 
 SELECT Username, PlayerLevel, ExperiencePoints
 FROM Players
 WHERE ExperiencePoints >= 20000;
 
--- 1.5 Retrieve All Items in the Game
+-- 1.0.5 Retrieve All Items in the Game
 
 SELECT * FROM Items
 
--- 2.0 Complex Queries
+-- 2.0.0 Complex Queries
 
--- 2.1 Top 3 Players by Experience Points
+-- 2.0.1 Top 3 Players by Experience Points
 
 SELECT TOP 3 Username, PlayerLevel, ExperiencePoints
 FROM Players
 ORDER BY ExperiencePoints DESC;
 
--- 2.2 Find All Matches Played by a Specific Player
+-- 2.0.2 Find All Matches Played by a Specific Player
 
 SELECT *
 FROM Matches M
@@ -40,7 +40,7 @@ JOIN Games G ON M.GameID = G.GameID
 JOIN PlayerMatchStats P ON M.MatchID = P.MatchID
 WHERE P.PlayerID = 1; -- Replace 1 with the specific PlayerID
 
--- 2.3 Generate Leaderboard for a Specific Game
+-- 2.0.3 Generate Leaderboard for a Specific Game
 
 SELECT P.Username, SUM(S.Score) AS TotalScore
 FROM PlayerMatchStats S
@@ -50,21 +50,21 @@ WHERE M.GameID = 1 -- Replace 1 with the specific GameID
 GROUP BY P.Username
 ORDER BY TotalScore DESC;
 
--- 2.4 Retrieve All Items Owned by a Specific Player
+-- 2.0.4 Retrieve All Items Owned by a Specific Player
 
 SELECT I.ItemName, I.ItemType, PI.Quantity, I.ItemValue
 FROM PlayerInventory PI
 JOIN Items I ON PI.ItemID = I.ItemID
 WHERE PI.PlayerID = 1; -- Replace 1 with the specific PlayerID
 
--- 2.5 Calculate Total Playtime for All Players
+-- 2.0.5 Calculate Total Playtime for All Players
 
 SELECT SUM(TotalPlayTime) AS TotalPlayTimeAcrossAllPlayers
 FROM Players;
 
--- 3.0 Stored Procedures
+-- 3.0.0 Stored Procedures
 
--- 3.1 Stored Procedure to Insert a New Match
+-- 3.0.1 Stored Procedure to Insert a New Match
 
 GO
 CREATE PROCEDURE AddNewMatch
@@ -82,7 +82,7 @@ END;
 
 EXEC AddNewMatch 1, '2024-09-10 14:30:00', '2024-09-10 15:00:00', 2, 'Shadow Isles', 30;
 
--- 3.2 Stored Procedure to Award an Achievement to a Player
+-- 3.0.2 Stored Procedure to Award an Achievement to a Player
 
 GO
 CREATE PROCEDURE AwardAchievement
@@ -96,7 +96,7 @@ END;
 
 EXEC AwardAchievement 1, 2;
 
--- 3.3 Stored Procedure to Add a New Player
+-- 3.0.3 Stored Procedure to Add a New Player
 
 GO
 CREATE PROCEDURE AddNewPlayer
@@ -111,7 +111,7 @@ END;
 
 EXEC AddNewPlayer 'DragonBorn', 'dragonborn@gmail.com', 'passwordhash245';
 
--- 3.4 Stored Procedure to Update Player's Level and Experience
+-- 3.0.4 Stored Procedure to Update Player's Level and Experience
 
 GO
 CREATE PROCEDURE UpdatePlayerLevelAndExperience
@@ -127,7 +127,7 @@ END;
 
 EXEC UpdatePlayerLevelAndExperience 1, 1, 0;
 
--- 3.5 Stored Procedure to Process a Transaction
+-- 3.0.5 Stored Procedure to Process a Transaction
 
 GO
 CREATE PROCEDURE ProcessTransaction
@@ -170,7 +170,7 @@ EXEC ProcessTransaction 1, 2, 600.00, 'Gold';
 
 EXEC ProcessTransaction 1, 2, 100.00, 'Gold';
 
--- 3.6 Stored Procedure to Add a New Game
+-- 3.0.6 Stored Procedure to Add a New Game
 
 GO 
 CREATE PROCEDURE AddNewGame
@@ -187,7 +187,7 @@ END;
 
 EXEC AddNewGame 'The Dragon Quest', 'Singe Player', 'A challenging quest to defeat a dragon.', 'ArcadiaDev', 'Adventure'; 
 
--- 3.7 Stored Procedure to Log an Error
+-- 3.0.7 Stored Procedure to Log an Error
 
 GO
 CREATE PROCEDURE LogError
@@ -202,9 +202,9 @@ END;
 
 EXEC LogError 'Failed to load game assets', 1, 'AssetID: 123';
 
--- 4.0 Functions
+-- 4.0.0 Functions
 
--- 4.1 Function to Calculate Player's Total Score Across All Matches
+-- 4.0.1 Function to Calculate Player's Total Score Across All Matches
 
 GO
 CREATE FUNCTION GetPlayerTotalScore (@PlayerID INT)
@@ -221,7 +221,7 @@ END;
 GO
 SELECT dbo.GetPlayerTotalScore(2);
 
--- 4.2 Function to Get Total Currency for a Player
+-- 4.0.2 Function to Get Total Currency for a Player
 
 GO 
 CREATE FUNCTION GetPlayerCurrencyBalance (@PlayerID INT)
@@ -238,7 +238,7 @@ END;
 GO
 SELECT dbo.GetPlayerCurrencyBalance(1);
 
--- 4.3 Function to Calculate Total Playtime for a Player
+-- 4.0.3 Function to Calculate Total Playtime for a Player
 
 GO
 CREATE FUNCTION CalculateTotalPlaytime (@PlayerID INT)
@@ -255,7 +255,7 @@ END;
 GO
 SELECT dbo.CalculateTotalPlaytime(1);
 
--- 4.4 Function to Get Player's Level by Username
+-- 4.0.4 Function to Get Player's Level by Username
 
 GO
 CREATE FUNCTION GetPlayerLevelByUsername (@Username VARCHAR(50))
@@ -272,7 +272,7 @@ END;
 GO
 SELECT dbo.GetPlayerLevelByUsername('DragonBorn')
 
--- 4.5 Function to Get Total Score for a Match
+-- 4.0.5 Function to Get Total Score for a Match
 
 GO
 CREATE FUNCTION GetTotalScoreForMatch (@MatchID INT)
@@ -289,7 +289,7 @@ END;
 GO
 SELECT dbo.GetTotalScoreForMatch(1);
 
--- 4.6 Function to Get the Most Recent Achievement Earned by a Player
+-- 4.0.6 Function to Get the Most Recent Achievement Earned by a Player
 
 GO
 CREATE FUNCTION GetMostRecentAchievement (@PlayerID INT)
@@ -307,3 +307,23 @@ END;
 
 GO
 SELECT dbo.GetMostRecentAchievement(1);
+
+-- 5.0.0 Triggers
+
+-- 5.0.1 Trigger to Automatically Update LastLoginDate
+
+GO
+CREATE TRIGGER trg_UpdateLastLoginDate
+ON PlayerSessions
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @PlayerID INT, @LastLogin DATETIME;
+
+	SELECT @PlayerID = inserted.PlayerID, @LastLogin = inserted.SessionStartTime
+	FROM inserted;
+
+	UPDATE Players
+	SET LastLoginDate = @LastLogin
+	WHERE PlayerID = @PlayerID;
+END;

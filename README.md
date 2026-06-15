@@ -20,34 +20,35 @@ Below is the ER diagram for ArcadiaDB:
 - SQL Server
 - T-SQL (for stored procedures, triggers, and functions)
 
-## How to Run the Scripts
+## Getting Started
 
-To set up and run the `ArcadiaDB` database, follow these steps:
+### Prerequisites
+- A running **SQL Server** instance (2019+, or Azure SQL Database)
+- A client to run the scripts: [SSMS](https://aka.ms/ssms), [Azure Data Studio](https://azure.microsoft.com/products/data-studio), or the `sqlcmd` CLI
 
-### 1. Run `arcadiadb.sql`
-This script creates the database and defines all necessary tables, constraints, and initial schema structure.
+### Setup
+Run the three scripts **in order** — each depends on the previous:
 
-- Open SQL Server Management Studio (SSMS).
-- Connect to your SQL Server instance.
-- Open `arcadiadb.sql` in SSMS.
-- Execute the script to create the `ArcadiaDB` database and all its tables.
+| # | Script | What it does |
+|---|--------|--------------|
+| 1 | `sql/arcadiadb.sql` | Creates the `ArcadiaDB` database, tables, keys, and constraints |
+| 2 | `sql/data.sql` | Inserts sample data (players, games, matches, items, …) |
+| 3 | `sql/queries_and_automatisation.sql` | Adds stored procedures, triggers, functions, and example queries |
 
-### 2. Run `data.sql`
-This script populates the database with sample data, including players, games, matches, and more.
+In SSMS or Azure Data Studio, open each file and execute it in that sequence. Or from the command line:
 
-- After running the `arcadiadb.sql` script, open `data.sql` in SSMS.
-- Ensure that the `USE ArcadiaDB;` command is present at the beginning of the script.
-- Execute the script to insert the sample data into the `ArcadiaDB` database.
+```bash
+sqlcmd -S localhost -E -i sql/arcadiadb.sql
+sqlcmd -S localhost -E -i sql/data.sql
+sqlcmd -S localhost -E -i sql/queries_and_automatisation.sql
+```
+> Use `-U <user> -P <password>` in place of `-E` if you're using SQL Server authentication.
 
-### 3. Run `queries_and_automatisation.sql`
-This script contains basic and complex queries, stored procedures, triggers, and functions that encapsulate the business logic of the database.
-
-- After populating the database with `data.sql`, open `queries_and_automatisation.sql` in SSMS.
-- Ensure that the `USE ArcadiaDB;` command is present at the beginning of the script.
-- Execute the script to create and test various queries, stored procedures, triggers, and functions.
-
-### 4. Verify the Setup
-After running all the scripts, you can start executing queries and procedures to interact with the `ArcadiaDB` database and verify that everything is functioning as expected.
+### Verify
+```sql
+USE ArcadiaDB;
+SELECT TOP 5 Username, PlayerLevel, CurrencyBalance FROM Players;
+```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
